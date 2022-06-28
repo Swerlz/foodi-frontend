@@ -1,0 +1,547 @@
+:root {
+    --green-200: #55e990;
+    --green-300: #29d16c;
+    --green-400: #098144;
+
+    --orange-200: #e9ba55;
+    --orange-300: #d19c29;
+    --orange-400: #814309;
+
+    --red-200: #f33d3d;
+    --red-300: #b71212;
+    --red-400: #661007;
+
+    --p5: 5px;
+    --p10: 10px;
+    --p15: 15px;
+    --p20: 20px;
+}
+
+html {
+    box-sizing: border-box;
+  }
+  *, *:before, *:after {
+    box-sizing: inherit;
+  }
+
+#root{
+    padding: var(--p15);
+    display: flex;
+    flex-direction: column;
+    max-width: 1200px;
+    margin: 50px auto;
+}
+
+.header{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: var(--p20);
+}
+
+body{
+    height: 100%;
+    background: #4e54c8;  
+    background: linear-gradient(to right, #8f94fb, #4e54c8); 
+}
+
+.noMargin{
+    margin: 0!important;
+}
+
+.noPadding{
+    padding: 0!important;
+}
+
+.noMT{
+    margin-top: 0!important;
+}
+
+.mb-15-o{
+    margin: 0;
+    margin-bottom: var(--p15);
+}
+.mb-15{
+    margin-bottom: 15px;
+}
+.mb-30{
+    margin-bottom: 30px;
+}
+
+.capitalize {
+    text-transform: capitalize;
+}
+
+img, video{
+    border-radius: 0.7em;
+    width: 100%;
+}
+
+.image-both{
+    position: relative;
+    max-width: 500px;
+}
+
+.images-cont{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 20px;
+    margin: 10px 0 40px 0;
+}
+
+#svg_1{
+    width: 80px;
+    height: 80px;
+    position: absolute;
+    bottom: -30px;
+    left: 0;
+    right: 0;
+    margin: auto;
+    z-index: 999;
+}
+
+.relative{
+    position: relative;
+}
+
+.text-center{
+    text-align: center;
+}
+
+.months-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: flex-start;
+}
+
+.months, .days {    
+    width: 60px;
+    padding: 5px;
+    text-align: center;
+    border-radius: 0.7rem;
+    line-height: 30px;
+    border: 2px solid;
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: 0.8px;
+    transition: 0.2s ease-in-out;
+    cursor: pointer;
+}
+
+.days{
+    width: 40px;
+}
+
+.months:hover, .days:hover {
+    background: var(--green-200);
+    cursor: pointer;
+}
+
+.selectedMonth {
+    background: var(--green-200);
+    cursor: default;
+}
+
+.flex-inline{
+    display: flex;
+    justify-content: space-between;
+    margin-top: var(--p15);
+    width: 100%;
+}
+
+li{
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    font-size: 17px;
+    margin-bottom: 15px;
+}
+
+.warning-message{
+    color: #bf0c0c;
+    font-weight: 500;
+    letter-spacing: 0.7px;
+}
+
+.recipe-relative{
+    position: relative;
+    padding: 10px;
+    border-radius: 0.7rem;
+    overflow: hidden;
+    margin-bottom: 15px;
+}
+
+.recipe-glass{
+    background-color: inherit;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    z-index: -1;    
+    filter: blur(2px);
+    box-shadow: inset 0 0 200px rgb(255 255 255 / 50%);
+    top: 0;
+    left: 0;
+}
+
+.recipes-cont{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 25px;
+}
+
+.recipe-img{
+    width: 100%;
+}
+
+.recipe-view{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.recipe-half{
+    width: calc(50% - 20px);
+}
+
+.recipe-box{
+    box-shadow: 2px 2px 8px 3px #00000026;
+    border-radius: 0.7em;
+    padding: 9;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    margin: 25px 0;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    position: relative;
+    overflow: hidden;
+    width: 350px;
+    height: fit-content;
+}
+
+.recipe-box > img{
+    transform: scale(0.95);
+}
+
+.recipe-box > h2,
+.recipe-box > img{
+    transition: all 0.3s ease-in-out;
+}
+
+.recipe-box:hover{
+    transform: scale(0.98);
+}
+
+.recipe-box:hover > img{
+    transform: scale(0.9);
+}
+/* Button */
+/* From uiverse.io by @adamgiebl */
+.cssbuttons-io-button {
+    font-family: inherit;
+    padding: 0.35em;
+    padding-left: 1.2em;
+    font-size: 17px;
+    font-weight: 500;
+    border-radius: 0.9em;
+    border: none;
+    letter-spacing: 0.05em;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    position: relative;
+    height: 2.8em;
+    padding-right: 3.3em;
+    cursor: pointer;
+    max-width: 350px;
+
+}
+
+.btn-save{
+    background: var(--green-200);
+    color: var(--green-400);
+    box-shadow: inset 0 0 1.6em -0.6em var(--green-300);
+}
+
+.btn-edit{
+    background: var(--green-200);
+    color: var(--green-400);
+    box-shadow: inset 0 0 1.6em -0.6em var(--green-300)
+}
+
+.btn-delete{
+    background: var(--red-200);
+    color: var(--red-400);
+    box-shadow: inset 0 0 1.6em -0.6em var(--red-300);
+}
+
+.cssbuttons-io-button .icon {
+    box-shadow: 0.1em 0.1em 0.6em 0.2em var(--green-300);
+    background: var(--green-200);
+    margin-left: 1em;
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 2.2em;
+    width: 2.2em;
+    border-radius: 0.7em;
+    right: 0.3em;
+    transition: all 0.3s;
+}
+
+.btn-delete .icon {
+    box-shadow: 0.1em 0.1em 0.6em 0.2em var(--red-300);
+    background: var(--red-200);
+}
+
+.just-arrow {
+    transform: rotate(180deg);
+    right: initial;
+    margin-left: initial;
+    margin-right: 1em;
+    background: var(--orange-200);
+    color: var(--orange-400);
+    box-shadow: inset 0 0 1.6em -0.6em var(--orange-300);
+}
+
+.just-arrow>.icon {
+    box-shadow: 0.1em 0.1em 0.6em 0.2em var(--orange-300);
+    background: var(--orange-200);
+}
+
+
+.cssbuttons-io-button:hover .icon {
+    width: calc(100% - 0.6em);
+}
+
+.cssbuttons-io-button .icon svg {
+    width: 1.1em;
+    transition: transform 0.3s;
+    color: var(--green-400);
+}
+
+.just-arrow .icon svg {
+    color: var(--orange-400);
+}
+
+.cssbuttons-io-button:hover .icon svg {
+    transform: translateX(0.1em);
+}
+
+.cssbuttons-io-button:active .icon {
+    transform: scale(0.95);
+}
+
+.btn-delete .icon svg {
+    color: var(--red-400);
+}
+
+/* Inputs */
+input[type="file"] {
+    display: none;
+}
+.input-container {
+    position: relative;
+    margin-bottom: 25px;
+}
+
+.label {
+    width: 100%;
+    display: block;
+    margin-bottom: var(--p10);
+    font-weight: 500;
+}
+
+.input-container:nth-child(1) > .label{
+    box-shadow: inset 0 0 1.6em -0.6em #23b39f;
+    margin: 15px 0;
+    text-align: center;
+    width: 100%;
+    background: #52e8d3;
+    border-radius: 0.7em;
+    padding: 15px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+input, textarea{
+    width: 100%;
+    padding: var(--p10);
+    color: black;
+    font-size: 16px;
+    border: 2px solid black;
+    border-radius: 0.7em;
+}
+
+.input-max{
+    max-width: 400px;
+}
+
+.input-container input:focus {
+    
+    outline: none;
+}
+
+.input-container input:focus~label {
+    top: -12px;
+    font-size: 12px;
+
+}
+
+/* Circles */
+.circles{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 85%;
+    height: 100%;
+    overflow: hidden;
+    z-index: -1000;
+}
+
+.circles li{
+    position: absolute;
+    display: block;
+    list-style: none;
+    width: 20px;
+    height: 20px;
+    background: rgba(255, 255, 255, 0.2);
+    animation: animate 25s linear infinite;
+    bottom: -150px;
+    
+}
+
+.circles li:nth-child(1){
+    left: 25%;
+    width: 80px;
+    height: 80px;
+    animation-delay: 0s;
+}
+
+
+.circles li:nth-child(2){
+    left: 10%;
+    width: 20px;
+    height: 20px;
+    animation-delay: 2s;
+    animation-duration: 12s;
+}
+
+.circles li:nth-child(3){
+    left: 70%;
+    width: 20px;
+    height: 20px;
+    animation-delay: 4s;
+}
+
+.circles li:nth-child(4){
+    left: 40%;
+    width: 60px;
+    height: 60px;
+    animation-delay: 0s;
+    animation-duration: 18s;
+}
+
+.circles li:nth-child(5){
+    left: 65%;
+    width: 20px;
+    height: 20px;
+    animation-delay: 0s;
+}
+
+.circles li:nth-child(6){
+    left: 75%;
+    width: 110px;
+    height: 110px;
+    animation-delay: 3s;
+}
+
+.circles li:nth-child(7){
+    left: 35%;
+    width: 150px;
+    height: 150px;
+    animation-delay: 7s;
+}
+
+.circles li:nth-child(8){
+    left: 50%;
+    width: 25px;
+    height: 25px;
+    animation-delay: 15s;
+    animation-duration: 45s;
+}
+
+.circles li:nth-child(9){
+    left: 20%;
+    width: 15px;
+    height: 15px;
+    animation-delay: 2s;
+    animation-duration: 35s;
+}
+
+.circles li:nth-child(10){
+    left: 85%;
+    width: 150px;
+    height: 150px;
+    animation-delay: 0s;
+    animation-duration: 11s;
+}
+
+@keyframes animate {
+
+    0%{
+        transform: translateY(0) rotate(0deg);
+        opacity: 1;
+        border-radius: 0;
+    }
+
+    100%{
+        transform: translateY(-1000px) rotate(720deg);
+        opacity: 0;
+        border-radius: 50%;
+    }
+
+}
+
+@media screen and (max-width: 1200px) {
+    body{
+        padding: 0px;
+    }
+
+    .recipe-box{
+        width: 30%;
+    }
+}
+
+@media screen and (max-width: 700px) {
+    .recipe-half{
+        width: 100%;
+    }
+    .recipe-box{
+        width: 45%;
+    }
+    .recipes-cont {
+        justify-content: space-between;
+    }
+    .recipe-img{
+        margin-bottom: var(--p15);
+    }
+    
+    #root{
+        margin: 20px auto;
+    }
+    
+.circles{
+    width: 100%;
+}
+}
+
+@media screen and (max-width: 460px) {
+    .recipes-cont {
+        gap: 0px;
+    }
+    .recipe-box{
+        width: 100%;
+    }
+}

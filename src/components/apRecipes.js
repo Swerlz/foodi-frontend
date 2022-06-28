@@ -87,7 +87,7 @@ const Receipe = (props) => {
 
 
                 try {
-                    const res = await axios.post(`https://foodeii.herokuapp.com/api/${nm}`, formData, {/*,
+                    const res = await axios.post(``, formData, {/*,
                 onUploadProgress: ProgressEvent => {
                     setUploadP(parseInt(Math.round((ProgressEvent.loaded * 100) / ProgressEvent.total)))
 
@@ -100,7 +100,7 @@ const Receipe = (props) => {
                     setUploadedFile({ fileName, filePath });
                     setImgUpd(true);
 
-                    axios.post('https://foodeii.herokuapp.com/api/update/recipe', { values: inputValue, recipeID: props.recipe[0].ID, img: filePath, oldImg: oldURL })
+                    axios.post('', { values: inputValue, recipeID: props.recipe[0].ID, img: filePath, oldImg: oldURL })
 
                 } catch (err) {
                     if (err.response.status === 500) {
@@ -116,7 +116,7 @@ const Receipe = (props) => {
                 }
 
             } else {
-                axios.post('https://foodeii.herokuapp.com/api/update/recipe', { values: inputValue, recipeID: props.recipe[0].ID })
+                axios.post('', { values: inputValue, recipeID: props.recipe[0].ID })
             }
 
             setUpd(false);
@@ -141,7 +141,7 @@ const Receipe = (props) => {
 
             try {
     
-                res = await axios.post(`https://foodeii.herokuapp.com/api/${nm}`, formData, {
+                res = await axios.post(`http://localhost:3001/api/${nm}`, formData, {
                      /*,
                 onUploadProgress: ProgressEvent => {
                     setUploadP(parseInt(Math.round((ProgressEvent.loaded * 100) / ProgressEvent.total)))
@@ -156,7 +156,7 @@ const Receipe = (props) => {
 
                 setUploadedFile({ fileName, filePath });
 
-                axios.post('https://foodeii.herokuapp.com/api/insertRecipe', { values: inputValue, userID: props.userID, img: filePath })
+                axios.post('http://localhost:3001/api/insertRecipe', { values: inputValue, userID: props.userID, img: filePath })
 
             } catch (err) {
                 if (err.response.status === 500) {
@@ -185,7 +185,7 @@ const Receipe = (props) => {
 
             updated && imgU ? oldURL = uploadedFile.filePath : oldURL = props.recipe[0].IMAGE
 
-            axios.delete('https://foodeii.herokuapp.com/api/delete/rec', { data: { id: props.recipe[0].ID, img: oldURL } })
+            axios.delete('http://localhost:3001/api/delete/rec', { data: { id: props.recipe[0].ID, img: oldURL } })
             goBack();
         } else {
             setWarn(true);

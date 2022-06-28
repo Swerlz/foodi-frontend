@@ -3,7 +3,7 @@
 import React, { useState, useRef } from 'react';
 import HeaderAp from './apHeader';
 import BasicInput from './apInput';
-import Axios from 'axios';
+import axios from 'axios';
 import Webcam from "react-webcam";
 import {motion} from "framer-motion"
 

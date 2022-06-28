@@ -62,7 +62,6 @@ const LoginPage = (props) => {
                     setWarning('Incorrect details.');
                     resetAll();
                 }
-
             }
         });
     }

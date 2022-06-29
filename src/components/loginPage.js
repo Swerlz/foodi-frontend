@@ -25,9 +25,9 @@ const LoginPage = (props) => {
 
     const submitUser = () => {
 
-        console.log('http://localhost:3001/api/get');
+        console.log('https://foodeii.herokuapp.com/api/get');
 
-        Axios.get('http://localhost:3001/api/get').then((res) => {
+        Axios.get('https://foodeii.herokuapp.com/api/get').then((res) => {
 
             let userExists = false;
             let rString = randomString(8, '0123456789');
@@ -43,7 +43,7 @@ const LoginPage = (props) => {
             if (action == 'Sign Up') {
 
                 if (!userExists) {
-                    Axios.post('http://localhost:3001/api/insert', { userName: user, userDay: day, userMonth: month, userID: rString })
+                    Axios.post('https://foodeii.herokuapp.com/api/insert', { userName: user, userDay: day, userMonth: month, userID: rString })
 
                     let userObj = { name: user, u_id: rString };
                     Cookies.set('user', JSON.stringify(userObj), { expires: 3700 });

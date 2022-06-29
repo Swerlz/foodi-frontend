@@ -144,23 +144,23 @@ const Receipe = (props) => {
             formData.append('upload_preset', 'rkg8ctfb');
 
             try {
-                await axios.post(details.upload, formData, {
-                    onUploadProgress: ProgressEvent => {
-                        setUploadP(parseInt(Math.round((ProgressEvent.loaded * 100) / ProgressEvent.total)))
-                    setTimeout(() => setUploadP(0), 3000);
-                    }
-               })
-                .then((res) => {
-                    const { secure_url } = res.data;
+await axios.post(details.upload, formData, {
+    onUploadProgress: ProgressEvent => {
+        setUploadP(parseInt(Math.round((ProgressEvent.loaded * 100) / ProgressEvent.total)))
+    setTimeout(() => setUploadP(0), 3000);
+    }
+})
+.then((res) => {
+    const { secure_url } = res.data;
 
-                    axios.post('https://foodeii.herokuapp.com/api/insertRecipe', { values: inputValue, userID: props.userID, img: secure_url }).then((response) => {
-                        console.log('Recipe added successfully.')
-                        goBack();
-                    })
-                })
-                .catch((err) => {
-                    console.log(err);
-                }) 
+    axios.post('https://foodeii.herokuapp.com/api/insertRecipe', { values: inputValue, userID: props.userID, img: secure_url }).then((response) => {
+        console.log('Recipe added successfully.')
+        goBack();
+    })
+})
+.catch((err) => {
+    console.log(err);
+}) 
 
             } catch (err) {
                 if (err.response.status === 500) {
@@ -181,10 +181,12 @@ const Receipe = (props) => {
         setUpdate(true);
     }
 
-    const handleDelete = () => {
+    const handleDelete = async () => {
         if (warn) {
-            axios.delete('https://foodeii.herokuapp.com/api/delete/rec', { data: { id: props.recipe[0].ID } })
-            goBack();
+            await axios.delete('https://foodeii.herokuapp.com/api/delete/rec', { data: { id: props.recipe[0].ID } }).then((response) => {
+                console.log('Recipe deleted successfully.')
+                goBack();
+            })
         } else {
             setWarn(true);
             alert('You will not be able to restore this recipe after deleting.')

@@ -1,5 +1,4 @@
 /*eslint-disable eqeqeq*/
-
 import React, { useState, useRef } from 'react';
 import HeaderAp from './apHeader';
 import BasicInput from './apInput';
@@ -22,6 +21,7 @@ const Receipe = (props) => {
     const [imageUpload, setImgUpload] = useState(false);
     const webcamRef = useRef(null);
     const inputFileRef = useRef();
+    const [uploadT, setUploadP] = useState(0);
 
     const goBack = () => {
         props.backk(true);
@@ -46,6 +46,14 @@ const Receipe = (props) => {
         return props.display == 'add' ? 'Add Recipe' : nam;
     }
 
+    const details = {
+        cloud_name: "doahdwsqv",
+        api_key: "541172485413837",
+        api_secret: "CKwlZyuuGlOUG9OVFMskDnIuhCM",
+        upload: "https://api.cloudinary.com/v1_1/doahdwsqv/upload",
+        folder: 'foodi'
+    }
+
     const handleSave = async e => {
         e.preventDefault();
         let imgUpdt = false;
@@ -58,49 +66,45 @@ const Receipe = (props) => {
         if (file != '' || imgSrc != null) {
             imgUpdt = true;
         }
-
         if (upd) {
-
+            console.log('updating')
             if (imgUpdt) {
-
-                let oldURL = '';
-
-                updated && imgU
-                    ?
-                    oldURL = uploadedFile.filePath
-                    :
-                    oldURL = props.recipe[0].IMAGE
-
                 let formData;
-                let nm = '';
 
                 if ( imgSrc !== null ) {
                     // Camera Image Upload
-                    formData = [imgSrc];
-                    nm = 'camera'
+                    formData = new FormData();
+                    formData.append('file', imgSrc);
                 }else{
                     // Gallery Image Upload
                     formData = new FormData();
                     formData.append('file', file);
-                    nm = 'upload'
                 }
 
+                formData.append('api_key', details.api_key);
+                formData.append('folder', details.folder);
+                formData.append('upload_preset', 'rkg8ctfb');
 
                 try {
-                    const res = await axios.post(``, formData, {/*,
-                onUploadProgress: ProgressEvent => {
-                    setUploadP(parseInt(Math.round((ProgressEvent.loaded * 100) / ProgressEvent.total)))
 
-                setTimeout(() => setUploadP(0), 3000);
-                }*/
-                    });
+                    await axios.post(details.upload, formData, {
+                        onUploadProgress: ProgressEvent => {
+                            setUploadP(parseInt(Math.round((ProgressEvent.loaded * 100) / ProgressEvent.total)))
+                        setTimeout(() => setUploadP(0), 3000);
+                        }
+                   })
+                    .then((res) => {
+                        const { secure_url } = res.data;
+    
+                        setUploadedFile({ secure_url });
 
-                    const { fileName, filePath } = res.data;
+                        setImgUpd(true);
 
-                    setUploadedFile({ fileName, filePath });
-                    setImgUpd(true);
-
-                    axios.post('', { values: inputValue, recipeID: props.recipe[0].ID, img: filePath, oldImg: oldURL })
+                        axios.post('http://localhost:3001/api/update/recipe', { values: inputValue, recipeID: props.recipe[0].ID, img: secure_url,})
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                    }) 
 
                 } catch (err) {
                     if (err.response.status === 500) {
@@ -116,47 +120,47 @@ const Receipe = (props) => {
                 }
 
             } else {
-                axios.post('', { values: inputValue, recipeID: props.recipe[0].ID })
+                axios.post('/api/update/recipe', { values: inputValue, recipeID: props.recipe[0].ID })
             }
 
             setUpd(false);
             setUpdate(true);
 
         } else {
-
+            console.log('adding')
             let formData;
-            let res;
-            let nm = '';
 
             if ( imgSrc !== null ) {
                 // Camera Image Upload
-                formData = [imgSrc];
-                nm = 'camera'
+                formData = new FormData();
+                formData.append('file', imgSrc);
             }else{
                 // Gallery Image Upload
                 formData = new FormData();
                 formData.append('file', file);
-                nm = 'upload'
             }
 
+            formData.append('api_key', details.api_key);
+            formData.append('folder', details.folder);
+            formData.append('upload_preset', 'rkg8ctfb');
+
             try {
-    
-                res = await axios.post(`http://localhost:3001/api/${nm}`, formData, {
-                     /*,
-                onUploadProgress: ProgressEvent => {
-                    setUploadP(parseInt(Math.round((ProgressEvent.loaded * 100) / ProgressEvent.total)))
+                await axios.post(details.upload, formData, {
+                    onUploadProgress: ProgressEvent => {
+                        setUploadP(parseInt(Math.round((ProgressEvent.loaded * 100) / ProgressEvent.total)))
+                    setTimeout(() => setUploadP(0), 3000);
+                    }
+               })
+                .then((res) => {
+                    const { secure_url } = res.data;
 
-                setTimeout(() => setUploadP(0), 3000);
-                }*/
-                });
+                    setUploadedFile({ secure_url });
 
-                const { fileName, filePath } = res.data;
-
-                console.log(res.data);
-
-                setUploadedFile({ fileName, filePath });
-
-                axios.post('http://localhost:3001/api/insertRecipe', { values: inputValue, userID: props.userID, img: filePath })
+                    axios.post('http://localhost:3001/api/insertRecipe', { values: inputValue, userID: props.userID, img: secure_url })
+                })
+                .catch((err) => {
+                    console.log(err);
+                }) 
 
             } catch (err) {
                 if (err.response.status === 500) {
@@ -165,11 +169,9 @@ const Receipe = (props) => {
                     console.log(err.response.data.msg);
                 }
 
-                let dt = err.response.data.msg;
-
-                return setMessage(dt.toString())
+                console.log(err);
+                return
             }
-
             goBack();
         }
     }
@@ -181,11 +183,7 @@ const Receipe = (props) => {
 
     const handleDelete = () => {
         if (warn) {
-            let oldURL = '';
-
-            updated && imgU ? oldURL = uploadedFile.filePath : oldURL = props.recipe[0].IMAGE
-
-            axios.delete('http://localhost:3001/api/delete/rec', { data: { id: props.recipe[0].ID, img: oldURL } })
+            axios.delete('http://localhost:3001/api/delete/rec', { data: { id: props.recipe[0].ID } })
             goBack();
         } else {
             setWarn(true);
@@ -265,7 +263,7 @@ const Receipe = (props) => {
     return (
         <>
             <HeaderAp title={act()} goBack={goBack} />
-
+            
             {props.display == 'add' || (props.display == 'show' && upd) ?
 
                 <motion.div variants={container} initial="hidden" animate="show" >
@@ -310,6 +308,8 @@ const Receipe = (props) => {
 
                     <p className='warning-message'>{message}</p>
 
+                    {uploadT > 0 ? <p>{uploadT}%</p> : null} 
+
                     <div className='flex-inline'>
                         <button className="cssbuttons-io-button btn-save" onClick={handleSave}> Save Recipe
                             <div className="icon">
@@ -331,7 +331,7 @@ const Receipe = (props) => {
                 <motion.div className="recipe-view" variants={container} initial="hidden" animate="show" >
                     <div className="recipe-half">
                         {updated && imgU ?
-                            <img className='recipe-img' src={uploadedFile.filePath} alt={uploadedFile.fileName} />
+                            <img className='recipe-img' src={uploadedFile.secure_url} alt="dashboard" />
                             :
                             <img className='recipe-img' src={props.recipe[0].IMAGE} alt="dashboard" />
                         }

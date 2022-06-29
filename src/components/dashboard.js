@@ -15,8 +15,9 @@ const Dashboard = ({ user, userID }) => {
             let cookie = Cookies.get('user');
             let user = JSON.parse(cookie);
 
-            Axios.get('https://foodeii.herokuapp.com/api/get/recipes', { params: { uID: user.u_id } }).then((res) => {
+            Axios.get('http://localhost:3001/api/get/recipes', { params: { uID: user.u_id } }).then((res) => {
                 setRecipes(res.data);
+                console.log(res.data);
             })
 
             setFetchRecipes(false);
@@ -30,7 +31,7 @@ const Dashboard = ({ user, userID }) => {
     }
 
     const fetchRecipe = (val) => {
-        Axios.get('https://foodeii.herokuapp.com/api/get/recipes', { params: { recipeID: val } }).then((res) => {
+        Axios.get('http://localhost:3001/api/get/recipes', { params: { recipeID: val } }).then((res) => {
             setOner(res.data);
             setDisplay('show');
         })

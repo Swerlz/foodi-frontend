@@ -3,7 +3,7 @@
   "background_color": "#46bbf2",
   "display": "standalone",
   "scope": "/",
-  "start_url": "https://incredible-bonbon-12fd12.netlify.app/",
+  "start_url": "/",
   "name": "Foodi",
   "short_name": "Foodi",
   "icons": [

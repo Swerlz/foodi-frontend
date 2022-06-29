@@ -154,7 +154,6 @@ await axios.post(details.upload, formData, {
     const { secure_url } = res.data;
 
     axios.post('https://foodeii.herokuapp.com/api/insertRecipe', { values: inputValue, userID: props.userID, img: secure_url }).then((response) => {
-        console.log('Recipe added successfully.')
         goBack();
     })
 })
@@ -181,17 +180,16 @@ await axios.post(details.upload, formData, {
         setUpdate(true);
     }
 
-    const handleDelete = async () => {
-        if (warn) {
-            await axios.delete('https://foodeii.herokuapp.com/api/delete/rec', { data: { id: props.recipe[0].ID } }).then((response) => {
-                console.log('Recipe deleted successfully.')
-                goBack();
-            })
-        } else {
-            setWarn(true);
-            alert('You will not be able to restore this recipe after deleting.')
-        }
+const handleDelete = async () => {
+    if (warn) {
+        await axios.delete('https://foodeii.herokuapp.com/api/delete/rec', { data: { id: props.recipe[0].ID } }).then((response) => {
+            goBack();
+        })
+    } else {
+        setWarn(true);
+        alert('You will not be able to restore this recipe after deleting.')
     }
+}
 
     const handleUpdate = (e) => {
 

@@ -154,6 +154,7 @@ const Receipe = (props) => {
                     const { secure_url } = res.data;
 
                     axios.post('https://foodeii.herokuapp.com/api/insertRecipe', { values: inputValue, userID: props.userID, img: secure_url }).then((response) => {
+                        console.log('Recipe added successfully.')
                         goBack();
                     })
                 })

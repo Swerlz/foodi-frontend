@@ -4,7 +4,7 @@ import HeaderAp from './apHeader';
 import BasicInput from './apInput';
 import axios from 'axios';
 import Webcam from "react-webcam";
-import {motion} from "framer-motion"
+import { motion } from "framer-motion"
 
 const Receipe = (props) => {
     const [inputValue, setInputValue] = useState({ theName: '', ingredients: '', instructions: '' });
@@ -67,15 +67,14 @@ const Receipe = (props) => {
             imgUpdt = true;
         }
         if (upd) {
-            console.log('updating')
             if (imgUpdt) {
                 let formData;
 
-                if ( imgSrc !== null ) {
+                if (imgSrc !== null) {
                     // Camera Image Upload
                     formData = new FormData();
                     formData.append('file', imgSrc);
-                }else{
+                } else {
                     // Gallery Image Upload
                     formData = new FormData();
                     formData.append('file', file);
@@ -90,20 +89,20 @@ const Receipe = (props) => {
                     await axios.post(details.upload, formData, {
                         onUploadProgress: ProgressEvent => {
                             setUploadP(parseInt(Math.round((ProgressEvent.loaded * 100) / ProgressEvent.total)))
-                        setTimeout(() => setUploadP(0), 3000);
+                            setTimeout(() => setUploadP(0), 3000);
                         }
-                   })
-                    .then((res) => {
-                        const { secure_url } = res.data;
-    
-                        setUploadedFile({ secure_url });
-                        setImgUpd(true);
-
-                        axios.post('https://foodeii.herokuapp.com/api/update/recipe', { values: inputValue, recipeID: props.recipe[0].ID, img: secure_url,})
                     })
-                    .catch((err) => {
-                        console.log(err);
-                    }) 
+                        .then((res) => {
+                            const { secure_url } = res.data;
+
+                            setUploadedFile({ secure_url });
+                            setImgUpd(true);
+
+                            axios.post('https://foodeii.herokuapp.com/api/update/recipe', { values: inputValue, recipeID: props.recipe[0].ID, img: secure_url, })
+                        })
+                        .catch((err) => {
+                            console.log(err);
+                        })
 
                 } catch (err) {
                     if (err.response.status === 500) {
@@ -126,14 +125,13 @@ const Receipe = (props) => {
             setUpdate(true);
 
         } else {
-            console.log('adding')
             let formData;
 
-            if ( imgSrc !== null ) {
+            if (imgSrc !== null) {
                 // Camera Image Upload
                 formData = new FormData();
                 formData.append('file', imgSrc);
-            }else{
+            } else {
                 // Gallery Image Upload
                 formData = new FormData();
                 formData.append('file', file);
@@ -144,22 +142,22 @@ const Receipe = (props) => {
             formData.append('upload_preset', 'rkg8ctfb');
 
             try {
-await axios.post(details.upload, formData, {
-    onUploadProgress: ProgressEvent => {
-        setUploadP(parseInt(Math.round((ProgressEvent.loaded * 100) / ProgressEvent.total)))
-    setTimeout(() => setUploadP(0), 3000);
-    }
-})
-.then((res) => {
-    const { secure_url } = res.data;
+                await axios.post(details.upload, formData, {
+                    onUploadProgress: ProgressEvent => {
+                        setUploadP(parseInt(Math.round((ProgressEvent.loaded * 100) / ProgressEvent.total)))
+                        setTimeout(() => setUploadP(0), 3000);
+                    }
+                })
+                    .then((res) => {
+                        const { secure_url } = res.data;
 
-    axios.post('https://foodeii.herokuapp.com/api/insertRecipe', { values: inputValue, userID: props.userID, img: secure_url }).then((response) => {
-        goBack();
-    })
-})
-.catch((err) => {
-    console.log(err);
-}) 
+                        axios.post('https://foodeii.herokuapp.com/api/insertRecipe', { values: inputValue, userID: props.userID, img: secure_url }).then((response) => {
+                            goBack();
+                        })
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                    })
 
             } catch (err) {
                 if (err.response.status === 500) {
@@ -180,16 +178,16 @@ await axios.post(details.upload, formData, {
         setUpdate(true);
     }
 
-const handleDelete = async () => {
-    if (warn) {
-        await axios.delete('https://foodeii.herokuapp.com/api/delete/rec', { data: { id: props.recipe[0].ID } }).then((response) => {
-            goBack();
-        })
-    } else {
-        setWarn(true);
-        alert('You will not be able to restore this recipe after deleting.')
+    const handleDelete = async () => {
+        if (warn) {
+            await axios.delete('https://foodeii.herokuapp.com/api/delete/rec', { data: { id: props.recipe[0].ID } }).then((response) => {
+                goBack();
+            })
+        } else {
+            setWarn(true);
+            alert('You will not be able to restore this recipe after deleting.')
+        }
     }
-}
 
     const handleUpdate = (e) => {
 
@@ -235,7 +233,7 @@ const handleDelete = async () => {
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        
+
         setInputValue((prev) => ({
             ...prev,
             [name]: value,
@@ -247,27 +245,31 @@ const handleDelete = async () => {
         setImgSrc(imageSrc);
         setImgUpload(true);
         setFile('');
-    } 
+    }
 
     const container = {
-        hidden: { opacity: 0, x: -100},
+        hidden: { opacity: 0, x: -100 },
         show: {
-          opacity: 1,
-          x: 0,
-          transition: {
-            type: 'spring', damping: 10, stifness: 100, duration: 1
+            opacity: 1,
+            x: 0,
+            transition: {
+                type: 'spring', damping: 10, stifness: 100, duration: 1
+            }
         }
-      }
     }
+
+    const videoConstraints = {
+        facingMode: "environment"
+      };
 
     return (
         <>
             <HeaderAp title={act()} goBack={goBack} />
-            
+
             {props.display == 'add' || (props.display == 'show' && upd) ?
 
                 <motion.div variants={container} initial="hidden" animate="show" >
-                    <input type='file' ref={inputFileRef} name='fil' id='fil' onChange={fileSelected}/>
+                    <input type='file' ref={inputFileRef} name='fil' id='fil' onChange={fileSelected} />
 
                     <div className='flex-inline'>
 
@@ -285,20 +287,20 @@ const handleDelete = async () => {
                     </div>
 
                     <div className='images-cont'>
-                        {web ? 
-                        <div className='image-preview image-both'>
-                            <h3>Preview</h3>
-                            <div className='relative'>
-                                <svg onClick={capture} xmlns="http://www.w3.org/2000/svg" id="svg_1" enableBackground="new 0 0 512 512" height="512" viewBox="0 0 512 512" width="512"><g><circle cx="256" cy="256" fill="#32bea6" r="256"/><path d="m406 335.508c0 27.091-22.031 49.122-49.123 49.122h-201.751c-27.09 0-49.126-22.033-49.126-49.122v-130.978c0-27.091 22.036-49.117 49.126-49.117h27.906c6.887 0 12.501-5.615 12.501-12.501v-4.839c0-16.933 13.765-30.705 30.699-30.705h59.539c16.935 0 30.699 13.771 30.699 30.705v4.839c0 6.885 5.616 12.501 12.501 12.501h27.906c27.091 0 49.123 22.025 49.123 49.117zm-149.998-156.366c-46.663 0-84.626 37.964-84.626 84.626 0 46.665 37.964 84.626 84.626 84.626s84.626-37.961 84.626-84.626c0-46.662-37.964-84.626-84.626-84.626zm0 149.251c35.637 0 64.625-28.985 64.625-64.625 0-35.637-28.988-64.625-64.625-64.625s-64.625 28.988-64.625 64.625c-.001 35.64 28.987 64.625 64.625 64.625z" fill="#fff"/></g></svg>
-                                <Webcam screenshotFormat="image/jpeg" ref={webcamRef} /> 
+                        {web ?
+                            <div className='image-preview image-both'>
+                                <h3>Preview</h3>
+                                <div className='relative'>
+                                    <svg onClick={capture} xmlns="http://www.w3.org/2000/svg" id="svg_1" enableBackground="new 0 0 512 512" height="512" viewBox="0 0 512 512" width="512"><g><circle cx="256" cy="256" fill="#32bea6" r="256" /><path d="m406 335.508c0 27.091-22.031 49.122-49.123 49.122h-201.751c-27.09 0-49.126-22.033-49.126-49.122v-130.978c0-27.091 22.036-49.117 49.126-49.117h27.906c6.887 0 12.501-5.615 12.501-12.501v-4.839c0-16.933 13.765-30.705 30.699-30.705h59.539c16.935 0 30.699 13.771 30.699 30.705v4.839c0 6.885 5.616 12.501 12.501 12.501h27.906c27.091 0 49.123 22.025 49.123 49.117zm-149.998-156.366c-46.663 0-84.626 37.964-84.626 84.626 0 46.665 37.964 84.626 84.626 84.626s84.626-37.961 84.626-84.626c0-46.662-37.964-84.626-84.626-84.626zm0 149.251c35.637 0 64.625-28.985 64.625-64.625 0-35.637-28.988-64.625-64.625-64.625s-64.625 28.988-64.625 64.625c-.001 35.64 28.987 64.625 64.625 64.625z" fill="#fff" /></g></svg>
+                                    <Webcam videoConstraints={videoConstraints} screenshotFormat="image/jpeg" ref={webcamRef} />
+                                </div>
                             </div>
-                        </div>
-                        : null }
-                        
+                            : null}
+
                         <div className='image-use image-both'>
-                            {imgSrc || file ? <h3>Upload Preview</h3> : null }
-                            {imgSrc && ( <img src={imgSrc} alt="Preview of your camera" /> )}
-                            {file && ( <img src={URL.createObjectURL(file)} alt="Preview of your camera" /> )}
+                            {imgSrc || file ? <h3>Upload Preview</h3> : null}
+                            {imgSrc && (<img src={imgSrc} alt="Preview of your camera" />)}
+                            {file && (<img src={URL.createObjectURL(file)} alt="Preview of your camera" />)}
                         </div>
                     </div>
 
@@ -308,7 +310,7 @@ const handleDelete = async () => {
 
                     <p className='warning-message'>{message}</p>
 
-                    {uploadT > 0 ? <p>{uploadT}%</p> : null} 
+                    {uploadT > 0 ? <p>{uploadT}%</p> : null}
 
                     <div className='flex-inline'>
                         <button className="cssbuttons-io-button btn-save" onClick={handleSave}> Save Recipe
@@ -349,7 +351,7 @@ const handleDelete = async () => {
                                 }
 
                             </ul>
-                            
+
                             <div className='recipe-glass'></div>
                         </div>
 
@@ -362,7 +364,7 @@ const handleDelete = async () => {
                                     breakLines(props.recipe[0].INSTRUCTIONS, true)
                                 }
                             </ol>
-                            
+
                             <div className='recipe-glass'></div>
                         </div>
                     </div>

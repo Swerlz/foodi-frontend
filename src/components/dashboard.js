@@ -17,7 +17,6 @@ const Dashboard = ({ user, userID }) => {
 
             Axios.get('https://foodeii.herokuapp.com/api/get/recipes', { params: { uID: user.u_id } }).then((res) => {
                 setRecipes(res.data);
-                console.log(res.data);
             })
 
             setFetchRecipes(false);

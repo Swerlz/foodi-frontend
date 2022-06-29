@@ -97,7 +97,6 @@ const Receipe = (props) => {
                         const { secure_url } = res.data;
     
                         setUploadedFile({ secure_url });
-
                         setImgUpd(true);
 
                         axios.post('https://foodeii.herokuapp.com/api/update/recipe', { values: inputValue, recipeID: props.recipe[0].ID, img: secure_url,})
@@ -120,7 +119,7 @@ const Receipe = (props) => {
                 }
 
             } else {
-                axios.post('/api/update/recipe', { values: inputValue, recipeID: props.recipe[0].ID })
+                axios.post('https://foodeii.herokuapp.com/api/update/recipe', { values: inputValue, recipeID: props.recipe[0].ID })
             }
 
             setUpd(false);
@@ -154,9 +153,9 @@ const Receipe = (props) => {
                 .then((res) => {
                     const { secure_url } = res.data;
 
-                    setUploadedFile({ secure_url });
-
-                    axios.post('https://foodeii.herokuapp.com/api/insertRecipe', { values: inputValue, userID: props.userID, img: secure_url })
+                    axios.post('https://foodeii.herokuapp.com/api/insertRecipe', { values: inputValue, userID: props.userID, img: secure_url }).then((response) => {
+                        goBack();
+                    })
                 })
                 .catch((err) => {
                     console.log(err);
